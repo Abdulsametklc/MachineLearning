@@ -34,16 +34,6 @@ sonuc4 = pd.DataFrame(data=play, index=range(14), columns=['play_yes', 'play_no'
 
 s = pd.concat([sonuc, sonuc2, sonuc3], axis=1) 
 s2 = pd.concat([s,sonuc4], axis=1)
-
-from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(s, sonuc4, test_size=0.33, random_state=0)
-
-from sklearn.linear_model import LinearRegression
-regressor= LinearRegression()
-regressor.fit(x_train, y_train)
-
-y_pred = regressor.predict(x_test) # -> 1. tenis oynanır mı oynanmaz mı play feature tahmini
-
 #-------------------------------------------
 temperature = veriler.iloc[:,1:2]
 humidity = veriler.iloc[:,2:3]
@@ -53,7 +43,7 @@ x2_train, x2_test, y2_train, y2_test = train_test_split(s3, humidity, test_size=
 
 regressor = LinearRegression()
 regressor.fit(x2_train, y2_train)
-y2_pred = regressor.predict(x2_test) # -> 2. humidity feature tahmini 
+y2_pred = regressor.predict(x2_test) # -> humidity feature tahmini 
 
 # y_test gerçek değerler
 # y_pred tahmin edilen değerler
@@ -78,4 +68,5 @@ print(model.summary())
 X_la = s2.iloc[:,[5,6,7,8]].values # -> istatistikler sonucunda P=0.05 değerinden büyük değerlere sahip değişkenler elendi. p değeri 0 en yakın değerler tutuldu
 X_la= np.array(X_la, dtype=float)
 model = sm.OLS(humidity, X_la).fit()
+
 print(model.summary())
